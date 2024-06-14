@@ -1,12 +1,20 @@
 class UserDashboard {
-
   constructor() {
     this.searchLocator = "#clr-form-control-1";
-    this.customerCellLocator = 'app-suche-kunden > .ag-theme-balham.ng-star-inserted .ag-center-cols-viewport .ag-center-cols-container .ag-cell-value';
+    this.customerCellLocator = 'app-suche-kunden .ag-center-cols-container .ag-cell-value';
+    this.tableLocator = ".orderedResults .ng-star-inserted";
+    this.searchBtn = ".dropdown-toggle .searchbar-label.clr-control-label .btn-search";
   }
 
-  typeInSearchBox(searchName) {
-    cy.get(this.searchLocator).type(`${searchName}{enter}`);
+  typeInSearchBoxAndClick(searchName) {
+    cy.get(this.searchLocator).clear().type(`${searchName}`);
+    cy.get(this.searchBtn).click({ force: true });
+  }
+
+  waitForTableContentLoaded(){
+    cy.get(this.tableLocator)
+        .should('exist')
+        .and('have.length', 13);
   }
 
   clickOnCustomerNo(customerNo) {
@@ -20,7 +28,6 @@ class UserDashboard {
     let data = [];
     let currentRow = {};
     const keys = ['art_role', 'firma_name', 'strasse_ort', 'vermittler', 'portfolio'];
-    cy.wait(500);
     cy.get(this.customerCellLocator).then($cells => {
       $cells.each((index, cell) => {
         const value = Cypress.$(cell).text().trim();

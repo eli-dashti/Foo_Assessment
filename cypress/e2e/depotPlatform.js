@@ -28,8 +28,8 @@ describe("User Workflow: Login, Search, and Dashboard View", () => {
     it("Search a customer and verify customer data based on the search", () => {
         loginPage.clickOnLoginBtn();
 
-        userDashboard.typeInSearchBox(searchValue);
-        cy.wait(1000);
+        userDashboard.typeInSearchBoxAndClick(searchValue);
+        userDashboard.waitForTableContentLoaded();
         userDashboard.dataGatheringFromTable().then(customerData => {
             let getDesireCustomer = userDashboard.searchCustomerName(searchValue, customerData);
             getDesireCustomer.forEach(row => {
@@ -44,8 +44,8 @@ describe("User Workflow: Login, Search, and Dashboard View", () => {
     it("Verify the customer data matches with customer portfolio", () => {
         loginPage.clickOnLoginBtn();
 
-        userDashboard.typeInSearchBox(searchValue);
-        cy.wait(2000);
+        userDashboard.typeInSearchBoxAndClick(searchValue);
+        userDashboard.waitForTableContentLoaded();
         userDashboard.dataGatheringFromTable().then(customerData => {
             let getDesireCustomer = userDashboard.searchCustomerName(searchValue, customerData);
             const customerNo = getDesireCustomer.map(row => {
