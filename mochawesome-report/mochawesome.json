@@ -1,0 +1,138 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 3,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-06-13T22:28:26.827Z",
+    "end": "2024-06-13T22:28:43.782Z",
+    "duration": 16955,
+    "testsRegistered": 3,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "51a8903a-0b9f-4cc3-8169-9ac4201192ee",
+      "title": "",
+      "fullFile": "cypress/e2e/depotPlatform.js",
+      "file": "cypress/e2e/depotPlatform.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "924fe3dc-9627-46e6-b61a-f6715a83a087",
+          "title": "User Workflow: Login, Search, and Dashboard View",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should be able landing on home page and login into the account successfully ",
+              "fullTitle": "User Workflow: Login, Search, and Dashboard View Should be able landing on home page and login into the account successfully ",
+              "timedOut": null,
+              "duration": 3932,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "loginPage.clickOnLoginBtn();\ncy.title().should(\"eq\", \"Dashboard ⋅ Evolution\");",
+              "err": {},
+              "uuid": "577f9f76-c208-48d2-8fe9-31fe8dfcb89e",
+              "parentUUID": "924fe3dc-9627-46e6-b61a-f6715a83a087",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Search a customer and verify customer data based on the search",
+              "fullTitle": "User Workflow: Login, Search, and Dashboard View Search a customer and verify customer data based on the search",
+              "timedOut": null,
+              "duration": 6034,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "loginPage.clickOnLoginBtn();\nuserDashboard.typeInSearchBox(searchValue);\ncy.wait(1000);\nuserDashboard.dataGatheringFromTable().then(customerData => {\n  let getDesireCustomer = userDashboard.searchCustomerName(searchValue, customerData);\n  getDesireCustomer.forEach(row => {\n    expect(row.art_role.toLowerCase()).to.equal('kunde');\n    const nameRegex = userDashboard.createNameRegex(searchValue);\n    expect(nameRegex.test(row.firma_name)).to.be.true;\n  });\n  expect(getDesireCustomer.length).to.be.greaterThan(0);\n});",
+              "err": {},
+              "uuid": "31f6bca8-f310-4b6b-9a8b-f4887d734c50",
+              "parentUUID": "924fe3dc-9627-46e6-b61a-f6715a83a087",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Verify the customer data matches with customer portfolio",
+              "fullTitle": "User Workflow: Login, Search, and Dashboard View Verify the customer data matches with customer portfolio",
+              "timedOut": null,
+              "duration": 6860,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "loginPage.clickOnLoginBtn();\nuserDashboard.typeInSearchBox(searchValue);\ncy.wait(2000);\nuserDashboard.dataGatheringFromTable().then(customerData => {\n  let getDesireCustomer = userDashboard.searchCustomerName(searchValue, customerData);\n  const customerNo = getDesireCustomer.map(row => {\n    const match = row.firma_name.match(/\\(([^)]+)\\)/);\n    return match ? match[1] : null;\n  }).filter(num => num !== null)[0];\n  cy.wrap(customerNo).as('customerNo');\n});\ncy.get('@customerNo').then(customerNo => {\n  userDashboard.clickOnCustomerNo(customerNo);\n  customerOverview.getCustomerNo().then(customerNumber => {\n    expect(customerNumber).to.contain(customerNo);\n  });\n});",
+              "err": {},
+              "uuid": "3f2eefeb-0ee9-4b2f-8cbd-8dc835092cc8",
+              "parentUUID": "924fe3dc-9627-46e6-b61a-f6715a83a087",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "577f9f76-c208-48d2-8fe9-31fe8dfcb89e",
+            "31f6bca8-f310-4b6b-9a8b-f4887d734c50",
+            "3f2eefeb-0ee9-4b2f-8cbd-8dc835092cc8"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 16826,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": null,
+      "version": "6.2.0"
+    }
+  }
+}
